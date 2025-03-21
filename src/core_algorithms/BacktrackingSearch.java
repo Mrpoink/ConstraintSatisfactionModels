@@ -76,7 +76,7 @@ public abstract class BacktrackingSearch <X, V> {
             // NO need to modify other part of this method.
             Arc<X> arc = arcs.peek();
             if (revise(arc.head, arc.tail)){
-                if arc.
+                System.out.println(); //Not needed
             }
         }
         return true;
