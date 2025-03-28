@@ -75,16 +75,21 @@ public abstract class BacktrackingSearch <X, V> {
             //TODO: complete AC-3 algorithm here *inside* the while loop
             // NO need to modify other part of this method.
             Arc<X> arc = arcs.poll();
+            unique.remove(arc);
             X head = arc.head;
             X tail = arc.tail;
-            if (revise(head, tail)){
-                if (unique.isEmpty()){
+            if (revise(tail, head)){
+                if (allVariables.get(tail).domain().isEmpty()){
                     return false;
                 }
-                for (X k:allVariables.keySet()){
-                    for (X v: problem.getNeighborsOf(tail))
-                        unique.add(new Arc<>(k, v));
+                for (X v: problem.getNeighborsOf(tail)) {
+                    Arc<X> arcy = new Arc<>(tail, v);
+                    if (!unique.contains(arcy)){
+                        unique.add(arcy);
+                        arcs.add(arcy);
+                    }
                 }
+
             }
         }
         return true;
@@ -120,6 +125,7 @@ public abstract class BacktrackingSearch <X, V> {
             //TODO: complete the MAC algorithm *inside* the while loop.
             // NO need to modify other part of this method.
             V value = allVariables.get(u).domain().removeFirst();
+            Map<X,Variable<X,V>> el = deepClone();
             allVariables.get(u).domain().clear();
             allVariables.get(u).domain().add(value);
 
@@ -135,7 +141,7 @@ public abstract class BacktrackingSearch <X, V> {
                     return true;
                 }
             }
-            allVariables = deepClone();
+            allVariables = el;
         }
         //We cannot find a valid value to assign to variable u.
         //We must backtrack now.

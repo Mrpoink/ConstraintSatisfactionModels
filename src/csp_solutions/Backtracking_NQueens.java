@@ -65,7 +65,7 @@ public class Backtracking_NQueens extends BacktrackingSearch<Integer,Integer> {
     }
 
     public static void main(String[] args) {
-        int N = 8;
+        int N = 32;
         NQueens csp = new NQueens(N);
         Backtracking_NQueens agent = new Backtracking_NQueens(csp);
         if (agent.initAC3() && agent.search()){
