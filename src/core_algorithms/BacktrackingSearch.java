@@ -81,8 +81,9 @@ public abstract class BacktrackingSearch <X, V> {
                 if (unique.isEmpty()){
                     return false;
                 }
-                for (X v : problem.getNeighborsOf(head)){
-                    unique.add(arc);
+                for (X k:allVariables.keySet()){
+                    for (X v: problem.getNeighborsOf(tail))
+                        unique.add(new Arc<>(k, v));
                 }
             }
         }
