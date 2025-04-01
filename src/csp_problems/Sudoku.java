@@ -60,6 +60,7 @@ public class Sudoku implements CSPProblem<Square, Integer> {
     }
 
     private void initializeNeighbors() {
+
         for (int i = 0; i < size; i++) {
             Set<Square> rowNeighbors = new HashSet<>();
             Set<Square> colNeighbors = new HashSet<>();
@@ -77,25 +78,25 @@ public class Sudoku implements CSPProblem<Square, Integer> {
             }
         }
 
-        for (int boxRow = 0; boxRow < 3; boxRow++) {
-            for (int boxCol = 0; boxCol < 3; boxCol++) {
-                Set<Square> boxNeighbors = new HashSet<>();
-                for (int x = 0; x < 3; x++) {
-                    for (int y = 0; y < 3; y++) {
-                        Square sq = new Square(boxRow * 3 + x, boxCol * 3 + y);
-                        boxNeighbors.add(sq);
+            for (int boxRow = 0; boxRow < 3; boxRow++) {
+                for (int boxCol = 0; boxCol < 3; boxCol++) {
+                    Set<Square> boxNeighbors = new HashSet<>();
+                    for (int x = 0; x < 3; x++) {
+                        for (int y = 0; y < 3; y++) {
+                            Square sq = new Square(boxRow * 3 + x, boxCol * 3 + y);
+                            boxNeighbors.add(sq);
+                        }
+                    }
+                    for (Square sq : boxNeighbors) {
+                        neighbors.get(sq).addAll(boxNeighbors);
                     }
                 }
-                for (Square sq : boxNeighbors) {
-                    neighbors.get(sq).addAll(boxNeighbors);
-                }
             }
-        }
 
-        // Remove a square from its own neighbor set
-        for (Map.Entry<Square, Set<Square>> entry : neighbors.entrySet()) {
-            entry.getValue().remove(entry.getKey());
-        }
+            // Remove a square from its own neighbor set
+            for (Map.Entry<Square, Set<Square>> entry : neighbors.entrySet()) {
+                entry.getValue().remove(entry.getKey());
+            }
     }
 
     @Override
