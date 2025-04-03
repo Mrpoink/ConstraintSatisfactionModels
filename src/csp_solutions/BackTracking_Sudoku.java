@@ -39,7 +39,9 @@ public class BackTracking_Sudoku extends BacktrackingSearch<Square, Integer> {
 
 
     private boolean conflicts(Square var1, int val1, Square var2, int val2) {
-        if (!csp.getNeighborsOf(var1).contains(var2) && !csp.getNeighborsOf(var2).contains(var1)) {
+//        System.out.println("Neighbors of " + var1.toString() + ": " + csp.getNeighborsOf(var1));
+//        System.out.println("Neighbors of" + var2.toString() + ": " + csp.getNeighborsOf(var2));
+        if ((!csp.getNeighborsOf(var1).contains(var2) && !csp.getNeighborsOf(var2).contains(var1))) {
             return false;
         }
         return val1 == val2;

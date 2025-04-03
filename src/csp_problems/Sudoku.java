@@ -63,18 +63,23 @@ public class Sudoku implements CSPProblem<Square, Integer> {
 
         for (int i = 0; i < size; i++) {
             Set<Square> rowNeighbors = new HashSet<>();
-            Set<Square> colNeighbors = new HashSet<>();
-
             for (int j = 0; j < size; j++) {
                 rowNeighbors.add(new Square(i, j));
-                colNeighbors.add(new Square(j, i));
             }
-
             for (int j = 0; j < size; j++) {
                 Square sqRow = new Square(i, j);
-                Square sqCol = new Square(j, i);
-                neighbors.putIfAbsent(sqRow, new HashSet<>(rowNeighbors));
-                neighbors.putIfAbsent(sqCol, new HashSet<>(colNeighbors));
+                neighbors.put(sqRow, new HashSet<>(rowNeighbors));
+            }
+        }
+        for (int j = 0; j < size; j++){
+            Set<Square> colNeighbors = new HashSet<>();
+            for (int i = 0; i < size; i++){
+                Square sq = new Square(i, j);
+                colNeighbors.add(sq);
+            }
+            for (int i = 0; i < size; i++){
+                Square sq = new Square(i, j);
+                neighbors.get(sq).addAll(colNeighbors);
             }
         }
 
@@ -89,9 +94,11 @@ public class Sudoku implements CSPProblem<Square, Integer> {
                     }
                 }
                 for (Square sq : boxNeighbors) {
+//                    System.out.println("Box neighbors: "+ boxNeighbors + " var: " + sq.toString());
                     neighbors.get(sq).addAll(boxNeighbors);
                 }
             }
+
         }
 
         // Remove a square from its own neighbor set
@@ -121,7 +128,9 @@ public class Sudoku implements CSPProblem<Square, Integer> {
 
     @Override
     public List<Square> getNeighborsOf(Square sq) {
-        return new ArrayList<>(neighbors.getOrDefault(sq, Collections.emptySet()));
+//        System.out.print(neighbors.get(sq).getClass());
+//        System.out.println("Neighbors for " + sq.toString() + ": "+ neighbors.toString());
+        return neighbors.get(sq).stream().toList();
     }
 
     @Override
