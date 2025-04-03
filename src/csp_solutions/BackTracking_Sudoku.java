@@ -62,20 +62,22 @@ public class BackTracking_Sudoku extends BacktrackingSearch<Square, Integer> {
 
     public static void main(String[] args) {
         String filename;
-        filename = "SudokuTestCases/TestCase1.txt";
+        for (int i = 1; i < 11; i++) {
+            filename = "SudokuTestCases/TestCase" + i + ".txt";
 
-        System.out.println("Loading puzzle from " + filename);
-        Sudoku csp = new Sudoku(filename);
+            System.out.println("Loading puzzle from " + filename);
+            Sudoku csp = new Sudoku(filename);
 
-        System.out.println("Initial Puzzle:");
-        csp.printPuzzle(csp.getAllVariables());
+            System.out.println("Initial Puzzle:");
+            csp.printPuzzle(csp.getAllVariables());
 
-        BackTracking_Sudoku agent = new BackTracking_Sudoku(csp);
-        if (agent.initAC3() && agent.search()) {
-            System.out.println("\nSolved Puzzle:");
-            csp.printPuzzle(agent.getAllVariables());
-        } else {
-            System.out.println("Unable to find a solution.");
+            BackTracking_Sudoku agent = new BackTracking_Sudoku(csp);
+            if (agent.initAC3() && agent.search()) {
+                System.out.println("\nSolved Puzzle:");
+                csp.printPuzzle(agent.getAllVariables());
+            } else {
+                System.out.println("Unable to find a solution.");
+            }
         }
     }
 }
